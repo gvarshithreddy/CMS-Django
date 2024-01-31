@@ -1,13 +1,53 @@
 <!-- FILEPATH: /D:/Projects/CMS/home/templates/master.html -->
+{% load static %}
 <!DOCTYPE html>
+
 <html>
 <head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <title>{% block title %} {% endblock %}</title>
+  <style>
+    .nav-link:hover {
+      background-color : rgb(103, 103, 103);
+    }
+  </style>
+  {% block head %}{% endblock head %}
 </head>
 <body>
-  <header>
-    <h1>Welcome to My Website</h1>
-  </header>
+  <!-- Just an image -->
+  <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light mb-10">
+    <a class="navbar-brand" href="/">
+      <img class="img-fluid" src="{% static '\images\cbitlogo.png' %}" width="168px" height="auto"  alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {% comment %} <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav justify-content-end">
+        <a class="nav-link {% block home %} {% endblock %}" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link {% block announce %} {% endblock %}" href="#">Announcements</a>
+        <a class="nav-link {% block student %} {% endblock %}" href="#">Student</a>
+        <a class="nav-link {% block staff %} {% endblock %}">Staff</a>
+        <a class="nav-link {% block contac %} {% endblock %}">Contact Us</a>
+      </div> {% endcomment %}
+      <ul class="nav justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link  text-dark " id='home' href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link  text-dark " id='announce' href="#">Announcements</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link  text-dark " id='student' href="#">Student</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark " id='staff'>Staff</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link  text-dark " id='contactus'>Contact Us</a>
+        </li>
+      </ul>
+  </nav>
   
   <main>
     {% block content %}
@@ -15,8 +55,11 @@
     {% endblock %}
   </main>
   
-  <footer>
+  <footer class="fixed-bottom">
     <p>&copy; 2024 My Website. All rights reserved.</p>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 </body>
 </html>
