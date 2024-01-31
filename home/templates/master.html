@@ -1,0 +1,22 @@
+<!-- FILEPATH: /D:/Projects/CMS/home/templates/master.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %} {% endblock %}</title>
+</head>
+<body>
+  <header>
+    <h1>Welcome to My Website</h1>
+  </header>
+  
+  <main>
+    {% block content %}
+    <!-- Content goes here -->
+    {% endblock %}
+  </main>
+  
+  <footer>
+    <p>&copy; 2024 My Website. All rights reserved.</p>
+  </footer>
+</body>
+</html>
