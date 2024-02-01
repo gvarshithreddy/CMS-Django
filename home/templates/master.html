@@ -6,6 +6,7 @@
 <head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <title>{% block title %} {% endblock %}</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <style>
     .nav-link:hover {
       background-color : rgb(103, 103, 103);
@@ -15,38 +16,71 @@
 </head>
 <body>
   <!-- Just an image -->
-  <nav class="navbar navbar-expand-md navbar-light fixed-top bg-light mb-10">
-    <a class="navbar-brand" href="/">
-      <img class="img-fluid" src="{% static '\images\cbitlogo.png' %}" width="168px" height="auto"  alt="">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-      <ul class="nav justify-content-end">
-        <li class="nav-item">
-          <a class="nav-link  text-dark " id='home' href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link  text-dark " id='announce' href="/announcements">Announcements</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link  text-dark " id='student' href="#">Student</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark " id='staff'>Staff</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link  text-dark " id='contactus'>Contact Us</a>
-        </li>
-      </ul>
+  <nav class="navbar navbar-expand-sm navbar-light bg-light">
+	  <div class="container-fluid ">
+		<a class="navbar-brand " href="#">CMSify</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+		  <ul class="navbar-nav ">
+			<li class="nav-item">
+			  <a class="nav-link rounded active" aria-current="page" href="{% url 'home' %}">Home</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link rounded  text-dark " id='announce' href="/announcements">Announcements</a>
+			</li>			
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+			  <a class="nav-link rounded  text-dark " id='student' href="{% url 'logout' %}">Logout</a>
+			</li>
+      {% else %}
+      <li class="nav-item">
+			  <a class="nav-link rounded  text-dark " id='student' href="{% url 'login' %}">Login</a>
+			</li>
+      {% endif %}
+      <li class="nav-item">
+        <a class="nav-link rounded  text-dark " id='contactus'>Contact Us</a>
+			</li>
+		  </ul>		  
+		</div>
+    </div>
   </nav>
+
+
+  
   
   <main>
-    <div style="margin-top:100px"></div>
+    <div style=""></div>
+    {% if messages %}
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          {% for message in messages %}
+        <div class="w3-animate-left alert align-items-center {% if user.is_authenticated %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show position-top position-fixed" role="alert">
+          {{message}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+      
+        
+        {% endfor %}
+        
+
+        </div>
+      </div>
+      
+    </div>{% endif %}
+    
+    
     {% block content %}
     <!-- Content goes here -->
     {% endblock %}
   </main>
+
+ 
   
   <footer class="fixed-bottom">
     <p>&copy; 2024 My Website. All rights reserved.</p>

@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}Announcements{% endblock title %}
 {% block head %}
+
 <style>
   #announce{
     border : black 2px solid;
@@ -20,11 +21,9 @@
   <div class="row align-items-center">
     {% for announcement in announcements %}
     <div class="col-xl-12">
-      <div class="row align-items-center">
+      <div class="row align-items-center w3-animate-right">
         {% if announcement.new %}
-        
-        
-        <div class="alert alert-dark col px-2 mx-5"><span class="badge bg-danger">new</span>{{announcement.body}}</div>
+        <div class="alert alert-dark col px-2 mx-5"><span class="badge bg-danger w3-animate-zoom">new!</span>{{announcement.body}}</div>
         {% else %}
         <div class="alert alert-dark col px-2 mx-5">{{announcement.body}}</div>
         {% endif %} 

@@ -1,33 +1,41 @@
-{% extends "master.html" %}
-{% block title %}Login{% endblock title %}
-{% block content %}
+{% extends "master.html" %} {% block title %}Login{% endblock title %}
+ {% block content %}
 
-
-<div class="container align-items-center shadow-md px-5 py-5 mx-auto my-5" >
+<div class="container align-items-center shadow-md px-5 py-5 mx-auto my-5">
   <div class="row">
-    <div class="col-6">
-      <h1>Login Page</h1>
+    <div class="col-6 w3-animate-left">
+      <h1>Student Login Page</h1>
       Please Enter Your Details
     </div>
-    <div class="col-6 align-items-center shadow-md px-5 py-5 mx-auto" style="border: black 2px solid">
-      <form>
-        <div class="form-group" >
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <div
+      class="col-6 align-items-center shadow-md px-5 py-5 mx-auto w3-animate-right"
+      style="border: black 2px solid"
+    >
+      <form action="/do_login" method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            name="email"
+            placeholder="Enter Your Registered Email ID"
+          />
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            name="password"
+            placeholder="Enter Your Password"
+          />
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </div>
   </div>
-  
-
-  
 </div>
 {% endblock %}
-
