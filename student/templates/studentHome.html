@@ -1,4 +1,4 @@
-{% extends "index.html" %}
+{% extends "sideNavBar.html" %}
 {% block title %}Student Home{% endblock title %}
 
 {% block content %}
@@ -13,7 +13,7 @@
     <h2 class="my-5 mx-5">Announcements</h2>
     {% for announcement in announcements %}
         {% if announcement.new %}
-        <div class="alert alert-dark px-2 mx-5"><span class="badge bg-danger w3-animate-zoom">new!</span>{{announcement.body}}</div>
+        <div class="alert alert-dark px-2 mx-5"><span class="badge bg-danger mx-1 w3-animate-zoom">new!</span>{{announcement.body}}</div>
         {% else %}
         <div class="alert alert-dark px-2 mx-5">{{announcement.body}}</div>
         {% endif %} 
