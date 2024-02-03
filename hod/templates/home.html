@@ -1,0 +1,38 @@
+{% extends "sideNavBarHOD.html" %}
+
+{% block title %}HOD | Dashboard{% endblock title %}
+
+{% block head %}
+    {% comment %} {{ parent() }} {% endcomment %}
+    {% comment %} <link rel="stylesheet" href="{{ asset('css/hodDashboard.css') }}"> {% endcomment %}
+{% endblock head %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center">Welcome to HOD Dashboard</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">You can view the list of all the students and their details</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">You can also view the list of all the teachers and their details</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">You can also view the list of all the courses and their details</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="text-center">You can also view the list of all the departments and their details</h3>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

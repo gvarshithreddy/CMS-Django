@@ -16,8 +16,6 @@ class Admin(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
-    def __str__(self):
-        return self.name
 
 class Course(models.Model):
     id = models.AutoField(primary_key=True)
@@ -28,24 +26,30 @@ class Course(models.Model):
     section = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+    admin_id = models.ForeignKey(Admin, on_delete=models.CASCADE)
     objects = models.Manager()
     
-class Staff(models.Model):
-    id = models.AutoField(primary_key=True)
-    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    profile_pic = models.FileField()
-    phone = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
-    objects = models.Manager()
+
 
 class Subject(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
     course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
-    staff_id = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
+
+
+
+
+class Staff(models.Model):
+    id = models.AutoField(primary_key=True)
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    profile_pic = models.FileField()
+    phone = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
+    subject_id = models.ManyToManyField(Subject, related_name= "staff_subjects")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
@@ -54,13 +58,13 @@ class Subject(models.Model):
 class Student(models.Model):
     id = models.AutoField(primary_key=True)
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    profile_pic = models.FileField()
+    profile_pic = models.FileField(null=True, blank=True)
     roll_no = models.CharField(max_length=100)
     branch = models.CharField(max_length=100)
     year = models.CharField(max_length=100)
     session_start_year = models.DateField()
     session_end_year = models.DateField()
-    section = models.CharField(max_length=100)
+    course = models.ForeignKey(Course, on_delete=models.DO_NOTHING)
     gender = models.CharField(max_length=100)
     phone = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -71,6 +75,7 @@ class Attendance(models.Model):
     id = models.AutoField(primary_key=True)
     subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
     attendance_date = models.DateField()
+    student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
@@ -125,7 +130,6 @@ class FeedbackStaff(models.Model):
 class NotificationStudent(models.Model):
     id = models.AutoField(primary_key=True)
     student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
-
     message = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)

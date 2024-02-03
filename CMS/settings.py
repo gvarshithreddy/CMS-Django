@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'home',
     'members',
     'student',
+    'hod',
 ]
 
 MIDDLEWARE = [
