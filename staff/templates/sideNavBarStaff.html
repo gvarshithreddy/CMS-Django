@@ -24,6 +24,7 @@
                     <a href="#">CMSify</a>
                 </div>
             </div>
+           
 
 
             <ul class="sidebar-nav">
@@ -33,9 +34,8 @@
                             <div class="col-4 " style="padding-left: 0px;  padding-right: 0px; margin-right:2px;">
                                 <img src="https://picsum.photos/200" class="img-fluid">
                             </div>
-                            <div class="col-6">
-                                <div class="row text-light">{% block user %}{% endblock user %}</div>
-                                
+                            <div class="col-5">
+                                <div class="text-light"><p>{{user.first_name}} {{user.last_name}}</p></div>
                             </div>
                         </div>
                        
@@ -43,23 +43,28 @@
                     </div>
                 </li>
                 <li class="sidebar-item">
-                    <a href="/student/home/" class="sidebar-link">
-                        <i class="lni lni-user"></i>
+                    <a href="{% url 'staffHome' %}" class="sidebar-link">
+                        <i class="lni lni-dashboard"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
+
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                        <i class="lni lni-pencil"></i>
+                        <span>Mark Attendance</span>
+                    </a>
+                </li>
+
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-agenda"></i>
-                        <span>Schedule</span>
+                        <span>View Schedule</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="lni lni-book"></i>
-                        <span>Attendance</span>
-                    </a>
-                </li>
+                
+                
+
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="lni lni-layout"></i>

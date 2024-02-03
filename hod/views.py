@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -10,7 +11,8 @@ from members.models import *
 # Create your views here.
 
 def home(request):
-    return render(request, 'home.html')
+    course = list(set(Course.objects.filter(admin_id = request.user.admin.id)))[0]
+    return render(request, 'home.html',{'course':course, 'user':request.user})
 
 
 def add_announcement(request):
@@ -77,3 +79,45 @@ def do_add_course(request):
       print(e)
       messages.success(request, 'Error adding course. Please try again.')
       return HttpResponseRedirect('/hod/add_course')
+     
+def add_student(request):
+  # print(list(set(list(Course.objects.values_list('name', flat=True)))))
+  return render(request, 'add_student.html', {'courses': list(set(list(Course.objects.values_list('code', flat=True)))), 'sems': range(1,9), 'start_years': range(datetime.now().year+1, datetime.now().year-10, -1), 'end_years': range(datetime.now().year+5, datetime.now().year-6, -1)})
+
+def do_add_student(request):
+  if request.method != 'POST':
+    messages.success(request, 'Error adding student. Please try again.')
+    return HttpResponseRedirect('/hod/add_student')
+  else:
+     first_name = request.POST['firstname']
+     last_name = request.POST['lastname']
+     email = request.POST['email']
+     password = request.POST['password']
+     roll_no = request.POST['rollno']
+     gender = request.POST['gender']
+     session_start_year = request.POST['session_start_year']
+     session_end_year = request.POST['session_end_year']
+     username = request.POST['username']
+     code = request.POST['code']
+     sem = request.POST['sem']
+    #  try:
+     print("I am here 1")
+     user=CustomUser.objects.create_user(username=username,password=password,email=email,last_name=last_name,first_name=first_name,user_type=3)
+     print("I am here 2")
+     user.student.roll_no = roll_no
+     user.student.gender = gender
+     user.student.session_start_year = session_start_year
+     user.student.session_end_year = session_end_year
+     print("I am here 3")
+     course_obj = Course.objects.get(code=code, sem=sem)
+     if course_obj:
+       print("Course is ",course_obj.name, " and sem is ",course_obj.sem)
+       user.student.course = Course.objects.get(code=code, sem=sem)
+     user.save()
+     messages.success(request, 'Student added successfully!')
+     return HttpResponseRedirect('/hod/add_student')
+  #  except Exception as e:
+     print(e)
+     print("Course is ",Course.objects.get(code=code, sem=sem).name)
+     messages.success(request, 'Error adding student. Please try again.')
+     return HttpResponseRedirect('/hod/add_student')

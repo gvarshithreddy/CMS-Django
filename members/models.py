@@ -57,12 +57,10 @@ class Student(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     profile_pic = models.FileField(null=True, blank=True)
     roll_no = models.CharField(max_length=100)
-    branch = models.CharField(max_length=100)
-    year = models.CharField(max_length=100)
-    session_start_year = models.DateField()
-    session_end_year = models.DateField()
-    course = models.ForeignKey(Course, on_delete=models.DO_NOTHING)
-    gender = models.CharField(max_length=100)
+    session_start_year = models.CharField(max_length=100)
+    session_end_year = models.CharField(max_length=100)
+    course = models.ForeignKey(Course, on_delete=models.DO_NOTHING, default=2)
+    gender = models.CharField(max_length=100, choices=((0,'Male'),(1,'Female')))
     phone = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -163,7 +161,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         if instance.user_type == 2:
             Staff.objects.create(admin=instance, address="")
         if instance.user_type == 3:
-            Student.objects.create(admin=instance, course_id=Course.objects.get(id=1), session_start_year="2020-01-01", session_end_year="2021-01-01", address="", profile_pic="", gender="")
+            Student.objects.create(admin=instance, course=Course.objects.get(id=2), session_start_year="2020-01-01", session_end_year="2021-01-01", profile_pic="", gender="")
 
 @receiver(post_save,sender=CustomUser)
 def save_user_profile(sender,instance,**kwargs):

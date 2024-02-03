@@ -1,20 +1,14 @@
-{% extends "sideNavBarHOD.html" %}
-
-{% block title %}HOD | Dashboard{% endblock title %}
-{% block head %}
-    {% comment %} {{ parent() }} {% endcomment %}
-    {% comment %} <link rel="stylesheet" href="{{ asset('css/hodDashboard.css') }}"> {% endcomment %}
-{% endblock head %}
+{% extends "sideNavBarStaff.html" %}
+{% block title %}STAFF | Home{% endblock title %}
 
 {% block content %}
-    
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h1 class="text-center">Welcome to the HOD Dashboard </h1>
-            <h1 class="text-center">Hod Name: {{user.username}}</h1>
-            <h1 class="text-center">Department: {{course.name}}</h1>
-
+            <h1 class="text-center">Welcome to the Staff Dashboard </h1>
+            <h1 class="text-center">Staff Name: {{user.first_name}} {{user.last_name}}</h1>
         </div>
     </div>
 </div>

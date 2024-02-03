@@ -46,12 +46,13 @@ def do_login(request):
             login(request, user)
             messages.success(request, 'You have successfully logged in!')
             if user.user_type == '1':
-                # return HttpResponseRedirect('/admin/home')
-                return HttpResponse("User is Admin")
+                return HttpResponseRedirect('/hod/home')
+                # return HttpResponse("User is Admin")
             elif user.user_type == '2':
-                return HttpResponse('User Is Staff')
+                return HttpResponseRedirect('/staff/home')
             elif user.user_type == '3':
-                return HttpResponse('User is Student')
+                return HttpResponseRedirect('/student/home')
+                # return HttpResponse('User is Student')
             
         else:
             messages.success(request, 'Error logging in. Please try again.')
