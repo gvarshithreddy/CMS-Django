@@ -56,10 +56,26 @@
                     </a>
                     <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">Add New Staff</a>
+                            <a href="{% url "add_staff" %}" class="sidebar-link">Add New Staff</a>
                         </li>
                         <li class="sidebar-item">
                             <a href="#" class="sidebar-link">Edit Existing Staff</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#course" aria-expanded="false" aria-controls="course">
+                        <i class="lni lni-book"></i>
+                        <span>Manage Courses</span>
+                    </a>
+                    <ul id="course" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item">
+                            <a href="{% url "add_course" %}" class="sidebar-link">Add New Courses</a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a href="#" class="sidebar-link">Edit Existing Courses</a>
                         </li>
                     </ul>
                 </li>

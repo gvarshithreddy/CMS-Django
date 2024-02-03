@@ -1,0 +1,36 @@
+{% extends "sideNavBarHOD.html" %}
+{% block title %}HOD | Add Course{% endblock title %}
+
+{% block content %}
+<div class="container align-items-center" style="width : 25em">
+  {% for message in messages %}
+  {{message}}
+  {% endfor %}
+  
+  <form action={% url "do_add_course" %} method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="name">Course Name</label>
+      <input type="text" class="form-control" name="name" placeholder="Enter Course Name">
+    </div>
+
+    <div class="form-group">
+      <label for="code">Code</label>
+      <input type="text" class="form-control" name="code"  placeholder="Enter Course Code">
+    <div class="form-group">Admin Email</label>
+      <select class="form-control" name="adminEmail">
+        {% for email in emails%}
+        <option>{{email}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    
+
+    <button type="submit" class="btn btn-primary mt-5">Add Course</button>
+  </form>
+
+
+</div>
+
+<warning>Course Will be added to all semesters!</warning>
+{% endblock content %}

@@ -21,15 +21,13 @@ class Course(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=100)
-    branch = models.CharField(max_length=100)
-    year = models.CharField(max_length=100)
-    section = models.CharField(max_length=100)
+    sem = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     admin_id = models.ForeignKey(Admin, on_delete=models.CASCADE)
     objects = models.Manager()
     
-    
+
 class Subject(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
