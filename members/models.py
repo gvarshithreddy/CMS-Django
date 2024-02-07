@@ -139,9 +139,10 @@ class NotificationStaff(models.Model):
     objects = models.Manager()
 
 class ScheduleStudent(models.Model):
+    days = ((0, "Monday"), (1, "Tuesday"), (2, "Wednesday"), (3, "Thursday"), (4, "Friday"), (5, "Saturday"), (6, "Sunday"))
     id = models.AutoField(primary_key=True)
     course_id = models.ForeignKey(Course, on_delete=models.DO_NOTHING)
-    day = models.CharField(max_length=100)
+    day = models.CharField(choices = days,max_length=100)
     start_time = models.TimeField()
     end_time = models.TimeField()
     subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)

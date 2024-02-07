@@ -1,0 +1,152 @@
+{% extends "sideNavBarHOD.html" %}
+{% block title %}HOD | Add Subject{% endblock title %}
+{% block head %}
+<style>
+  th{
+    text-align: center;
+    margin-right: 5px;
+  }
+  td{
+    text-align: center;
+    margin-right: 5px;
+  }
+
+</style>
+{% endblock head %}
+{% block content %}
+<div>
+  {% for message in messages %}
+  {{message}}
+  {% endfor %}
+{% comment %}   
+  <form action={% url "do_add_course_schedule" %} method="POST">
+    {% csrf_token %}
+    <div class="form-group">Add to Course</label>
+      <select class="form-control" name="course_code">
+        {% for course in courses%}
+        <option>{{course}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">Course Semester</label>
+      <select class="form-control" name="sem">
+        {% for sem in sems%}
+        <option>{{sem}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">Subject</label>
+      <select class="form-control" name="subject">
+        {% for subject in subjects%}
+        <option>{{subject}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">Staff</label>
+      <select class="form-control" name="staff">
+        {% for staff in staffs%}
+        <option value={{staff.staff.id}}>{{staff.first_name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">Day</label>
+      <select class="form-control" name="day">
+        {% for day in days%}
+        <option value={{days|get_item:day}}>{{day}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+
+    <div class="form-group">Start Time</label>
+      <select class="form-control" name="start_time">
+        {% for start_time in start_times%}
+        <option>{{start_time}}</option>
+        {% endfor %}
+      </select>
+    </div><div class="form-group">End Time</label>
+      <select class="form-control" name="end_time">
+        {% for end_time in end_times%}
+        <option>{{end_time}}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+
+    
+
+    <button type="submit" class="btn btn-primary mt-5">Add Subject</button>
+  </form> {% endcomment %}
+
+
+<h2>Schedule Table</h2>
+
+<form action={% url "do_add_course_schedule" %} method="post">
+
+  {% csrf_token %}
+    <div class="container align-items-left mb-5">
+      <div class="col-4">
+        <div class="form-group">Add to Course</label>
+          <select class="form-control" name="course_code">
+            {% for course in courses%}
+            <option>{{course}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">Course Semester</label>
+          <select class="form-control" name="sem">
+            {% for sem in sems%}
+            <option>{{sem}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">Staff</label>
+          <select class="form-control" name="staff">
+            {% for staff in staffs%}
+            <option value={{staff.staff.id}}>{{staff.first_name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      
+    </div>
+    
+
+    <table class='table form-group' border=1>
+        <tr>
+          
+            <th scope="col">Time</th>
+            {% for day in days%}
+        <th scope="col">{{day}}</th>
+        {% endfor %}
+        </tr>
+        <!-- Create rows for each hour from 9 AM to 4 PM -->
+        <!-- Modify the input name according to your backend handling -->
+        <!-- For example, 'monday_9am', 'tuesday_10am', etc. -->
+        {% for start_time in start_times %}
+        <tr>
+          <td>{{start_time}}</td>
+          {% for day in days %}
+          <td>
+            <select class="form-control" name="{{day}}_{{start_time}}">
+            {% for subject in subjects%}
+            <option>{{subject}}</option>
+            {% endfor %}
+          </select>
+        </td>
+          {% endfor %}
+      </tr>
+      {% endfor %}
+        
+    </table>
+    
+    <button type="submit" class="btn btn-primary mt-5">Add Subject</button>
+</form>
+
+</div>
+
+{% comment %} <warning>Subject Will be added to all semesters!</warning> {% endcomment %}
+{% endblock content %}
