@@ -1,5 +1,5 @@
 {% extends "sideNavBarHOD.html" %}
-{% block title %}HOD | Add Subject{% endblock title %}
+{% block title %}HOD | Add Schedule{% endblock title %}
 {% block head %}
 <style>
   th{
@@ -103,13 +103,6 @@
             {% endfor %}
           </select>
         </div>
-        <div class="form-group">Staff</label>
-          <select class="form-control" name="staff">
-            {% for staff in staffs%}
-            <option value={{staff.staff.id}}>{{staff.first_name}}</option>
-            {% endfor %}
-          </select>
-        </div>
       </div>
       
     </div>
@@ -126,14 +119,20 @@
         <!-- Create rows for each hour from 9 AM to 4 PM -->
         <!-- Modify the input name according to your backend handling -->
         <!-- For example, 'monday_9am', 'tuesday_10am', etc. -->
-        {% for start_time in start_times %}
+        {% for start_time, end_time in times %}
         <tr>
-          <td>{{start_time}}</td>
+          <td>{{start_time}} - {{end_time}}</td>
           {% for day in days %}
           <td>
-            <select class="form-control" name="{{day}}_{{start_time}}">
+            
+            <select class="form-control" name="{{day}}_{{start_time}}_{{end_time}}_subject">
             {% for subject in subjects%}
             <option>{{subject}}</option>
+            {% endfor %}
+          </select>
+          <select class="form-control" name="{{day}}_{{start_time}}_{{end_time}}_staff">
+            {% for staff in staffs%}
+            <option value={{staff.staff.id}}>{{staff.first_name}}</option>
             {% endfor %}
           </select>
         </td>

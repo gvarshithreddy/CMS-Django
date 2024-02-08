@@ -1,0 +1,32 @@
+{% extends "sideNavBarStudent.html" %}
+{% block title %}Student | View Schedule{% endblock title %}
+{% block content %}
+  <div class='container'>
+    <table class='table form-group' border=1>
+      <tr>
+        
+          <th scope="col">Time</th>
+          {% for day in days%}
+      <th scope="col">{{days| get_item:day}}</th>
+      {% endfor %}
+      </tr>
+      <!-- Create rows for each hour from 9 AM to 4 PM -->
+      <!-- Modify the input name according to your backend handling -->
+      <!-- For example, 'monday_9am', 'tuesday_10am', etc. -->
+      {% for start_time, end_time in times %}
+      <tr>
+        <td>{{start_time}} - {{end_time}}</td>
+        {% for day in days %}
+        <td>
+          <p>{{day| get_subject:start_time}}</p>
+      </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+      
+  </table>
+
+
+      
+  </div>
+{% endblock content %}

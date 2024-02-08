@@ -147,39 +147,79 @@ def do_add_subject(request):
       return HttpResponseRedirect('/hod/add_subject')
 
 def add_course_schedule(request):
-  return render(request, 'add_course_schedule.html', {'courses': list(set(list(Course.objects.values_list('code', flat=True))) ), 'sems': range(1,9), 'days': {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5, "Sunday":6}, 'start_times': [time(9,10).strftime("%I:%M"),time(10,10).strftime("%I:%M"), time(11,15).strftime("%I:%M"), time(13,0).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M")], 'end_times': [time(10,10).strftime("%I:%M"),time(11,10).strftime("%I:%M"), time(12,15).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M"), time(16,0).strftime("%I:%M")], 'staffs': list(CustomUser.objects.filter(user_type=2)), 'subjects': list(Subject.objects.values_list('name', flat=True))})
+  start_times = [time(9,10).strftime("%I:%M"),time(10,10).strftime("%I:%M"), time(11,15).strftime("%I:%M"), time(13,0).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M")]
+  end_times= [time(10,10).strftime("%I:%M"),time(11,10).strftime("%I:%M"), time(12,15).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M"), time(16,0).strftime("%I:%M")]
+  times = zip(start_times, end_times)
+  context = {
+    'courses': list(set(list(Course.objects.values_list('code', flat=True))) ), 
+    'sems': range(1,9), 
+    'days': {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5, "Sunday":6}, 
+    'times':times,
+    'staffs': list(CustomUser.objects.filter(user_type=2)), 'subjects': list(Subject.objects.values_list('name', flat=True)),
+    }
+  
+  return render(request, 'add_course_schedule.html', context)
+
+# def do_add_course_schedule(request):
+#   days= {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5, "Sunday":6}
+#   start_times = [time(9,10).strftime("%I:%M"),time(10,10).strftime("%I:%M"), time(11,15).strftime("%I:%M"), time(13,0).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M")]
+#   end_times= [time(10,10).strftime("%I:%M"),time(11,10).strftime("%I:%M"), time(12,15).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M"), time(16,0).strftime("%I:%M")]
+#   times = zip(start_times, end_times)
+#   from django.shortcuts import render, redirect
+# from .models import ScheduleStudent
+def add_schedule_student(request,day_index, start_time, end_time, course_code, semester):
+  days= {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5, "Sunday":6}
+
+  subject_name = request.POST.get(f'{day_index}_{start_time}_{end_time}_subject')
+  staff_id = request.POST.get(f'{day_index}_{start_time}_{end_time}_staff')
+
+  # Create or update schedule
+  schedule, _ = ScheduleStudent.objects.update_or_create(
+      course_id=Course.objects.get(code=course_code, sem = semester),
+      # semester=semester,
+      day=days[day_index],
+      start_time=start_time,
+      end_time=end_time,
+      defaults={
+          'subject_id': Subject.objects.get(name=subject_name),
+          'staff_id': Staff.objects.get(id=staff_id),
+          'status': False,  # Assuming status should be set to False for new schedules
+      }
+  )
+
 
 def do_add_course_schedule(request):
-  days= {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5, "Sunday":6}
-  start_times = [time(9,10).strftime("%I:%M"),time(10,10).strftime("%I:%M"), time(11,15).strftime("%I:%M"), time(13,0).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M")]
-  if request.method != 'POST':
+    start_times = [time(9,10).strftime("%I:%M"),time(10,10).strftime("%I:%M"), time(11,15).strftime("%I:%M"), time(13,0).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M")]
+    end_times= [time(10,10).strftime("%I:%M"),time(11,10).strftime("%I:%M"), time(12,15).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M"), time(16,0).strftime("%I:%M")]
+    # times = zip(start_times, end_times)
+    days= {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5, "Sunday":6}
+
+    if request.method == 'POST':
+        # Extract data from the form
+        course_code = request.POST.get('course_code')
+        semester = request.POST.get('sem')
+
+        # Iterate over the form fields to extract schedule data
+        count = 0
+        # print(times)
+        for day_index in days:
+            count+=1
+            iter = 0
+            while iter < len(start_times):
+              start_time = start_times[iter]
+              end_time = end_times[iter]
+              iter+=1
+              add_schedule_student(request,day_index, start_time, end_time, course_code, semester)
+                
+
+        # Redirect to a success page or to the same page with a success message
+        messages.success(request, 'Course schedule added successfully!')
+        return HttpResponseRedirect('/hod/add_course_schedule/')  # You should define a URL pattern named 'success_page' for this to work
+
+    # If request method is not POST, render the form page again
     messages.success(request, 'Error adding course schedule. Please try again.')
-    return HttpResponseRedirect('/hod/add_course_schedule')
-  else:
-     course_code = request.POST['course_code']
-     sem = request.POST['sem']
-    #  day = request.POST['day']
-    #  start_time = request.POST['start_time']
-    #  end_time = request.POST['end_time']
-     staff_id = request.POST['staff']
-    #  subject_name = request.POST['subject']
+    return HttpResponseRedirect('/hod/add_course_schedule/')  # Replace 'your_template.html' with the name of your template file
 
-     for day in days:
-      for start_time in start_times:
-        schedule = request.POST[day+"_"+start_time]
-        print("Schedule is ",schedule, "on", day, "at", start_time)
-
-     return HttpResponseRedirect('/hod/add_course_schedule')
-    # #  try:
-    #  course = Course.objects.get(code=course_code, sem = sem)
-    #  staff = Staff.objects.get(id = staff_id)
-    #  subject = Subject.objects.get(name=subject_name)
-    #  schedule = ScheduleStudent.objects.create(course_id=course, day=day, start_time=start_time, end_time=end_time, staff_id=staff, subject_id=subject)
-    #  messages.success(request, 'Course schedule added successfully!')
-    #  return HttpResponseRedirect('/hod/add_course_schedule')
-    # #  except:
-    #  messages.success(request, 'Error adding course schedule. Please try again.')
-    #  return HttpResponseRedirect('/hod/add_course_schedule')
      
 @register.filter
 def get_item(dictionary, key):
