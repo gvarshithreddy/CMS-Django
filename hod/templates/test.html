@@ -1,52 +1,32 @@
-{% extends "sideNavBarHOD.html" %}
-{% block title %}HOD | Add Subject{% endblock title %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Courses</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
 
-{% block content %}
-<div class="container align-items-center" style="width: 25em;">
-  {% for message in messages %}
-  {{ message }}
-  {% endfor %}
-  
-  <form action="{% url 'do_add_subject' %}" method="POST">
-    {% csrf_token %}
-    <div class="form-group">
-      <label for="name">Subject Name</label>
-      <input type="text" class="form-control" name="name" placeholder="Enter Subject Name">
-    </div>
-
-    <div class="form-group">
-      <label for="code">Code</label>
-      <input type="text" class="form-control" name="code"  placeholder="Enter Subject Code">
-    </div>
-
-    <div class="form-group">
-      <label for="selectedCoursesInput">Selected Courses</label>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" id="selectedCoursesInput" placeholder="Selected Courses" readonly>
-        <button class="btn btn-primary" type="button" id="addCourseBtn">Add Course</button>
-      </div>
-      <p>Select Courses from the drop down list</p>
-      <select class="form-control" name="coursesList" id="courseSelect">
-        {% for course in courses %}
-        <option>{{ course }}</option>
-        {% endfor %}
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label for="sem">Course Semester</label>
-      <select class="form-control" name="sem">
-        {% for sem in sems %}
-        <option>{{ sem }}</option>
-        {% endfor %}
-      </select>
-    </div>
-
+<div class="container mt-5">
+  <h3>Add Courses</h3>
+  <div class="input-group mb-3">
+    <input type="text" class="form-control" id="selectedCoursesInput" placeholder="Selected Courses" readonly>
+    <button class="btn btn-primary" type="button" id="addCourseBtn">Add Course</button>
+  </div>
+  <div class="form-group" id="courseDropdown">
+    <select class="form-control" id="courseSelect">
+      <option value="Math">Math</option>
+      <option value="Science">Science</option>
+      <option value="History">History</option>
+      <!-- Add more courses as needed -->
+    </select>
+  </div>
+  <form id="courseForm" method="post" action="your_action_url">
     <input type="hidden" id="selectedCourses" name="selectedCourses">
-
-    <button type="submit" class="btn btn-primary mt-5">Add Subject</button>
+    <button type="submit" class="btn btn-success mt-3">Submit</button>
   </form>
-
 </div>
 
 <!-- Bootstrap JS -->
@@ -90,4 +70,5 @@
   }
 </script>
 
-{% endblock content %}
+</body>
+</html>

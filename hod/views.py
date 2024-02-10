@@ -12,7 +12,7 @@ from members.models import *
 # Create your views here.
 
 def home(request):
-    course = list(set(Course.objects.filter(admin_id = request.user.admin.id)))[0]
+    course = list(set(Course.objects.filter(admin_id = request.user.admin.id)))
     return render(request, 'home.html',{'course':course, 'user':request.user})
 
 
@@ -126,7 +126,8 @@ def do_add_student(request):
 
 
 def add_subject(request):
-  return render(request, 'add_subject.html', {'courses': list(set(list(Course.objects.values_list('code', flat=True))) ), 'sems': range(1,9)})
+  courses = list(set(list(Course.objects.values_list('code', flat=True).order_by('code'))))
+  return render(request, 'add_subject.html', {'courses': courses , 'sems': range(1,9)})
 
 def do_add_subject(request):
   if request.method != 'POST':
@@ -135,11 +136,14 @@ def do_add_subject(request):
   else:
      name = request.POST['name']
      code = request.POST['code']
-     course_code = request.POST['course_code']
+     coursesList = list(map(str,request.POST['selectedCourses'].strip().split(',')))
+     print(coursesList)
      sem = request.POST['sem']
      try:
-      course = Course.objects.get(code=course_code, sem = sem)
-      subject = Subject.objects.create(name=name, code=code, course_id=course)
+      subject = Subject.objects.create(name=name, code=code)
+      for coursecode in coursesList:
+        course = Course.objects.get(code=coursecode, sem=sem)
+        subject.course_id.add(course)
       messages.success(request, 'Subject added successfully!')
       return HttpResponseRedirect('/hod/add_subject')
      except:

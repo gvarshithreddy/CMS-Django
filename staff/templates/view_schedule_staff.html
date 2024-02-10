@@ -1,0 +1,24 @@
+{% extends "sideNavBarStaff.html" %}
+{% block title %}Staff | View Schedule{% endblock title %}
+{% block content %}
+  <div class='container'>
+    <table class='table form-group' border=1>
+      <tr>
+        <th scope="col">Time</th>
+        {% for day in days %}
+          <th scope="col">{{ days|get_day:day }}</th>
+        {% endfor %}
+      </tr>
+
+      {% for start_time, end_time in times %}
+      <tr>
+        <td>{{start_time}} - {{end_time}}</td>
+        {% for day in days %}
+        
+        <td>{{day|get_subject_staff:start_time}}</td>
+        {% endfor %}
+      </tr>
+        {% endfor %}
+    </table>
+  </div>
+{% endblock content %}

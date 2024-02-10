@@ -17,11 +17,13 @@
       <tr>
         <td>{{start_time}} - {{end_time}}</td>
         {% for day in days %}
-        <td>
-          <p>{{day| get_subject:start_time}}</p>
-      </td>
+        
+        <td>{{day|get_subject:start_time}}</td>
+        
+      </tr>
         {% endfor %}
-    </tr>
+   
+      
     {% endfor %}
       
   </table>

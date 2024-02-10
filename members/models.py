@@ -31,8 +31,8 @@ class Course(models.Model):
 class Subject(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    code = models.CharField(max_length=100)
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
+    code = models.CharField(max_length=100, unique=True)
+    course_id = models.ManyToManyField(Course,related_name="course_subjects")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
@@ -66,13 +66,28 @@ class Student(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
+class ScheduleStudent(models.Model):
+    days = ((0, "Monday"), (1, "Tuesday"), (2, "Wednesday"), (3, "Thursday"), (4, "Friday"), (5, "Saturday"), (6, "Sunday"))
+    id = models.AutoField(primary_key=True)
+    course_id = models.ForeignKey(Course, on_delete=models.DO_NOTHING)
+    day = models.CharField(choices = days,max_length=100)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+    subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
+    staff_id = models.ForeignKey(Staff, on_delete=models.DO_NOTHING)
+    status = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    objects = models.Manager()
+    
+
 class Attendance(models.Model):
     id = models.AutoField(primary_key=True)
-    subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
-    attendance_date = models.DateField()
+    attendance_schedule = models.ForeignKey(ScheduleStudent, on_delete=models.DO_NOTHING)
     student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
+    status = models.BooleanField(default=False)
     objects = models.Manager()
 
 class AttendanceReport(models.Model):
@@ -138,20 +153,7 @@ class NotificationStaff(models.Model):
     updated_at = models.DateTimeField(auto_now_add=True)
     objects = models.Manager()
 
-class ScheduleStudent(models.Model):
-    days = ((0, "Monday"), (1, "Tuesday"), (2, "Wednesday"), (3, "Thursday"), (4, "Friday"), (5, "Saturday"), (6, "Sunday"))
-    id = models.AutoField(primary_key=True)
-    course_id = models.ForeignKey(Course, on_delete=models.DO_NOTHING)
-    day = models.CharField(choices = days,max_length=100)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
-    subject_id = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
-    staff_id = models.ForeignKey(Staff, on_delete=models.DO_NOTHING)
-    status = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
-    objects = models.Manager()
-    
+
 
 
 @receiver(post_save, sender=CustomUser)

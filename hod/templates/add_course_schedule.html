@@ -130,6 +130,7 @@
             <option>{{subject}}</option>
             {% endfor %}
           </select>
+
           <select class="form-control" name="{{day}}_{{start_time}}_{{end_time}}_staff">
             {% for staff in staffs%}
             <option value={{staff.staff.id}}>{{staff.first_name}}</option>
@@ -142,10 +143,16 @@
         
     </table>
     
-    <button type="submit" class="btn btn-primary mt-5">Add Subject</button>
+    <button type="submit" class="btn btn-primary mt-5">Add Schedule</button>
 </form>
 
 </div>
+
+<script>
+  $(document).ready(function() {
+    $('#multiSelect').selectpicker();
+  });
+</script>
 
 {% comment %} <warning>Subject Will be added to all semesters!</warning> {% endcomment %}
 {% endblock content %}
