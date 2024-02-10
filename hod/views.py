@@ -157,7 +157,7 @@ def add_course_schedule(request):
   context = {
     'courses': list(set(list(Course.objects.values_list('code', flat=True))) ), 
     'sems': range(1,9), 
-    'days': {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5, "Sunday":6}, 
+    'days': {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5}, 
     'times':times,
     'staffs': list(CustomUser.objects.filter(user_type=2)), 'subjects': list(Subject.objects.values_list('name', flat=True)),
     }

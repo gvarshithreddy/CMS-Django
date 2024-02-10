@@ -4,6 +4,11 @@
 {% block head %}
     {% comment %} {{ parent() }} {% endcomment %}
     {% comment %} <link rel="stylesheet" href="{{ asset('css/hodDashboard.css') }}"> {% endcomment %}
+    <style>
+    .card {
+      margin-botom: 10px;
+    }
+  </style>
 {% endblock head %}
 
 {% block content %}
@@ -28,7 +33,7 @@
             <div class="col-4">
               <div class="card btn btn-primary bg-primary" style="width: 13rem;">
                 <div class="card-body">
-                  <a class="card-title h5" href="#">Mark Attendance</a>  
+                  <a class="card-title h5" href={% url "add_student" %}>Add Student</a>  
                 </div>
               </div>
             </div>
@@ -36,7 +41,15 @@
             <div class="col-4">
               <div class="card btn btn-primary bg-info" style="width: 13rem;">
                 <div class="card-body">
-                  <a class="card-title h5" href="#">View Your Schedule</a>  
+                  <a class="card-title h5" href={% url "add_staff" %}>Add Staff</a>  
+                </div>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="card btn btn-primary bg-info" style="width: 13rem;">
+                <div class="card-body">
+                  <a class="card-title h5" href={% url "add_course" %}>Add Course</a>  
                 </div>
               </div>
             </div>
@@ -44,7 +57,23 @@
             <div class="col-4">
               <div class="card btn btn-primary bg-warning" style="width: 13rem;">
                 <div class="card-body">
-                  <a class="card-title h5" href="#">Apply For Leave</a>  
+                  <a class="card-title h5" href={% url "add_subject" %}>Add Subject</a>  
+                </div>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="card btn btn-primary bg-info" style="width: 13rem;">
+                <div class="card-body">
+                  <a class="card-title h5" href={% url "add_course_schedule" %}>Add Schedule to Course</a>  
+                </div>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <div class="card btn btn-primary bg-danger style="width: 13rem;">
+                <div class="card-body">
+                  <a class="card-title h5" href={% url "add_announcement" %}>Send Announcement</a>  
                 </div>
               </div>
             </div>
