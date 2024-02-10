@@ -13,7 +13,12 @@ from members.models import *
 
 def home(request):
     course = list(set(Course.objects.filter(admin_id = request.user.admin.id)))
-    return render(request, 'home.html',{'course':course, 'user':request.user})
+    context = {
+       'course':course,
+         'user':request.user,
+         'announcements': Announcement.objects.all(),
+         }
+    return render(request, 'home.html',context=context)
 
 
 def add_announcement(request):
@@ -28,7 +33,7 @@ def add_announcement(request):
             new = False
         # date = request.POST['date']
         Announcement.objects.create(title=title, body=body, new=new)
-        return HttpResponseRedirect('/add_announcement.html')
+        return HttpResponseRedirect('/hod/add_announcement/')
     else:
         return render(request, 'add_announcement.html', {'form': form})
     
@@ -185,8 +190,8 @@ def add_schedule_student(request,day_index, start_time, end_time, course_code, s
       start_time=start_time,
       end_time=end_time,
       defaults={
-          'subject_id': Subject.objects.get(name=subject_name),
-          'staff_id': Staff.objects.get(id=staff_id),
+          'subject_id': Subject.objects.get(name="DENM"),
+          'staff_id': Staff.objects.get(id=1),
           'status': False,  # Assuming status should be set to False for new schedules
       }
   )

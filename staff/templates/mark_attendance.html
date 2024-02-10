@@ -1,0 +1,44 @@
+{% extends "sideNavBarStaff.html" %}
+{% block title %}Staff | Mark attendance{% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <p><strong>Course Name:</strong>  {{course}}</p>
+    <p><strong>Time Slot:</strong>  {{start_time}} - {{end_time}}</p>
+    <p><strong>Date:</strong>  {{date}}</p>
+    <p><strong>Subject:</strong>  {{subject}}</p>
+  </div>
+  <div class="row border-1 shadow-lg">
+    <form method="post" action="{% url 'do_markAttendance' %}">
+      {% csrf_token %}
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Attendance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <input type="hidden" name="schedule_id" value="{{schedule_id}}">
+          {% for student in students %}
+          <tr>
+            <td>{{student.roll_no}}</td>
+            <td>{{students|get_student_name:student}}</td>
+            <td>  
+              <!-- <input type='hidden' value='0' name='statuses'> -->
+              <input type="checkbox" name="pesent"  value="{{student.id}}">
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-primary" >Submit</button>
+    </form>
+
+  </div>
+</div>
+
+
+{% endblock content %}

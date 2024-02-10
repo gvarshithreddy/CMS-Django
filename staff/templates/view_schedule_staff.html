@@ -2,6 +2,9 @@
 {% block title %}Staff | View Schedule{% endblock title %}
 {% block content %}
   <div class='container'>
+    {% for message in messages %}
+    {{message}}
+    {% endfor %}
     <table class='table form-group' border=1>
       <tr>
         <th scope="col">Time</th>

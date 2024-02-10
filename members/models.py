@@ -83,7 +83,7 @@ class ScheduleStudent(models.Model):
 
 class Attendance(models.Model):
     id = models.AutoField(primary_key=True)
-    attendance_schedule = models.ForeignKey(ScheduleStudent, on_delete=models.DO_NOTHING)
+    attendance_schedule = models.ManyToManyField(ScheduleStudent, related_name="attendance_schedule")
     student_id = models.ForeignKey(Student, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
