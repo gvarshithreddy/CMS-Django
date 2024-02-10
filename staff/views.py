@@ -175,4 +175,17 @@ def get_student_id(students, student):
 def get_student_name(students, student):
     print(student)
     return CustomUser.objects.get(id=student.admin_id).first_name
+@register.filter
+
+
+def get_subject_staff(day, start_time):
+    global staff_id
+    print(staff_id)
+    h,m = map(int, start_time.split(':'))
+    start_time1 = time(h,m)
+    try:
+        return ScheduleStudent.objects.get(day = day, start_time = start_time1, staff_id_id= staff_id).subject_id.name
+    except:
+        return "Error"
+
 

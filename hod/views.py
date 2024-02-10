@@ -9,7 +9,8 @@ from django.contrib import messages
 
 from members.models import *
 
-# Create your views here.
+# Create your views here
+
 
 def home(request):
     course = list(set(Course.objects.filter(admin_id = request.user.admin.id)))
@@ -177,11 +178,11 @@ def add_course_schedule(request):
 #   from django.shortcuts import render, redirect
 # from .models import ScheduleStudent
 def add_schedule_student(request,day_index, start_time, end_time, course_code, semester):
-  days= {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5, "Sunday":6}
+  days= {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5}
 
   subject_name = request.POST.get(f'{day_index}_{start_time}_{end_time}_subject')
   staff_id = request.POST.get(f'{day_index}_{start_time}_{end_time}_staff')
-
+  print(subject_name, staff_id)
   # Create or update schedule
   schedule, _ = ScheduleStudent.objects.update_or_create(
       course_id=Course.objects.get(code=course_code, sem = semester),
@@ -190,8 +191,8 @@ def add_schedule_student(request,day_index, start_time, end_time, course_code, s
       start_time=start_time,
       end_time=end_time,
       defaults={
-          'subject_id': Subject.objects.get(name="DENM"),
-          'staff_id': Staff.objects.get(id=1),
+          'subject_id': Subject.objects.get(name=subject_name),
+          'staff_id': Staff.objects.get(id=staff_id),
           'status': False,  # Assuming status should be set to False for new schedules
       }
   )
@@ -201,7 +202,7 @@ def do_add_course_schedule(request):
     start_times = [time(9,10).strftime("%I:%M"),time(10,10).strftime("%I:%M"), time(11,15).strftime("%I:%M"), time(13,0).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M")]
     end_times= [time(10,10).strftime("%I:%M"),time(11,10).strftime("%I:%M"), time(12,15).strftime("%I:%M"), time(14,0).strftime("%I:%M"), time(15,0).strftime("%I:%M"), time(16,0).strftime("%I:%M")]
     # times = zip(start_times, end_times)
-    days= {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5, "Sunday":6}
+    days= {"Monday":0,  "Tuesday":1, "Wednesday":2, "Thursday":3, "Friday":4, "Saturday":5}
 
     if request.method == 'POST':
         # Extract data from the form
