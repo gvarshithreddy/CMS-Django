@@ -14,4 +14,5 @@ urlpatterns = [
   path ('do_add_subject/', views.do_add_subject, name='do_add_subject'),
   path ('add_course_schedule/', views.add_course_schedule, name='add_course_schedule'),
   path ('do_add_course_schedule/', views.do_add_course_schedule, name='do_add_course_schedule'),
+  path ('view_leave_requests/', views.view_leave_requests, name='viewLeaves')
 ]

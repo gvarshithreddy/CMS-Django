@@ -224,7 +224,27 @@ def do_add_course_schedule(request):
     messages.success(request, 'Error adding course schedule. Please try again.')
     return HttpResponseRedirect('/hod/add_course_schedule/')  # Replace 'your_template.html' with the name of your template file
 
+def view_leave_requests(request):
+  context ={
+    'studentLeaves': LeaveReportStudent.objects.all(),
+    'staffLeaves': LeaveReportStaff.objects.all(),
+    'days': {"hi":1}
+  }
+  return render(request, 'view_leave_requests.html', context=context)
      
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+
+@register.filter
+def get_student_rollno(dictionary, id):
+    return Student.objects.get(id=id).roll_no
+
+
+@register.filter
+def get_student_course(dictionary, id):
+    return Student.objects.get(id=id).course.name
+
+@register.filter
+def get_staff_name(dictionary, id):
+    return CustomUser.objects.get(id=Staff.objects.get(id=id).admin_id).first_name

@@ -1,9 +1,11 @@
 from datetime import time
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from home.models import Announcement
 from members.models import *
 from django.template.defaulttags import register
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -27,6 +29,41 @@ def studentSchedule(request):
     }
     print(context['schedules'])
     return render(request, 'view_student_schedule.html', context=context)
+
+def studentApplyLeave(request):
+    return render(request, 'apply_leave_student.html')
+
+def do_studentApplyLeave(request):
+    if request.method != "POST":
+        messages.success(request, "Error Please Try Again")
+        return HttpResponseRedirect('/student/apply_leave/')
+    else:
+        start_date = request.POST['startDate']
+        end_date = request.POST['endDate']
+        reason = request.POST['reason']
+        student_id = request.POST['student_id']
+        print(student_id)
+
+        try:
+            LeaveReportStudent.objects.create(
+                leave_start_date = start_date,
+                leave_end_date = end_date,
+                leave_message = reason,
+                student_id_id = student_id
+                
+            )
+            messages.success(request, "Leave Applied Succefully")
+            return HttpResponseRedirect('/student/apply_leave/')
+        except:
+            messages.success(request,"Error occurred")
+            return HttpResponseRedirect('/student/apply_leave/')
+
+
+
+
+
+
+
 
 @register.filter
 def get_day(dictionary, key):

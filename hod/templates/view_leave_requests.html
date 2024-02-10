@@ -1,0 +1,67 @@
+{% extends "sideNavBarHOD.html" %}
+
+{% block title %}HOD | View Leaves{% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row align-items-center">
+    <h1>Student Leaves</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Student Roll Num</th>
+          <th scope="col">Student Course</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date</th>
+          <th scope="col">Reason</th>
+          <th scope="col">Approve/Deny</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for studentLeave in studentLeaves %}
+        <tr>
+          
+          <td>{{days|get_student_rollno:studentLeave.student_id_id}}</td>
+          <td>{{days|get_student_course:studentLeave.student_id_id}}</td>
+          <td>{{studentLeave.leave_start_date}}</td>
+          <td>{{studentLeave.leave_end_date}}</td>
+          <td>{{studentLeave.leave_message}}</td>
+          <td><a href="#">Approve</a>/<a href="#">Deny</a></td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row align-items-center">
+    <h1>Staff Leaves</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Staff Name</th>
+          <th scope="col">Start Date</th>
+          <th scope="col">End Date</th>
+          <th scope="col">Reason</th>
+          <th scope="col">Approve/Deny</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for staffLeave in staffLeaves %}
+        <tr>
+          
+          <td>{{days|get_staff_name:staffLeave.staff_id_id}}</td>
+          <td>{{staffLeave.leave_start_date}}</td>
+          <td>{{staffLeave.leave_end_date}}</td>
+          <td>{{staffLeave.leave_message}}</td>
+          <td><a href="#">Approve</a>/<a href="#">Deny</a></td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}

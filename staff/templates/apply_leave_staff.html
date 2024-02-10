@@ -1,0 +1,46 @@
+{% extends "sideNavBarStaff.html" %}
+{% block tittle %}Staff | Apply Leave{% endblock tittle %}
+
+{% block content %}
+<div class="container m-5 p-5">
+  <div class="row">
+    <div class="col-6">
+      <h1>Apply Leave</h1>
+    </div>
+
+    <div class="col-6">
+      <div class="container align-items-center" style="width : 25em">
+        {% for message in messages %}
+        {{message}}
+        {% endfor %}
+        
+        <form action={% url "do_staffApplyLeave" %} method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="firstname">Start Date</label>
+            <input type="date" class="form-control" name="startDate">
+          </div>
+      
+          <div class="form-group">
+            <label for="lastname">End Date</label>
+            <input type="date" class="form-control" name="endDate">
+          </div>
+      
+        
+          <div class="form-group">
+            <label for="address">Reason</label>
+            <input type="text" class="form-control" name="reason" placeholder="Enter Reason">
+          </div>
+
+          <input type="hidden" class="form-control" value="{{user.staff.id}}" name="staff_id">
+      
+          <button type="submit" class="btn btn-primary mt-5">Request Leave</button>
+        </form>
+      
+      </div>
+      
+
+    </div>
+  </div>
+</div>
+{% endblock content %}

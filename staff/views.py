@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.template.defaulttags import register
 from members.models import *
 from django.http import HttpResponse, HttpResponseRedirect, request
+from django.contrib import messages
 
 # Create your views here.
 staff_id = 1
@@ -54,7 +55,37 @@ def staffSchedule(request):
         'staff_schedules': staff_schedules,
     }
         
-    
+def staffApplyLeave(request):
+    return render(request, 'apply_leave_staff.html')
+
+def do_staffApplyLeave(request):
+    if request.method != "POST":
+        messages.success(request, "Error Please Try Again")
+        return HttpResponseRedirect('/staff/apply_leave/')
+    else:
+        start_date = request.POST['startDate']
+        end_date = request.POST['endDate']
+        reason = request.POST['reason']
+        staff_id = request.POST['staff_id']
+        print(staff_id)
+
+        
+        LeaveReportStaff.objects.create(
+            leave_start_date = start_date,
+            leave_end_date = end_date,
+            leave_message = reason,
+            staff_id_id = staff_id
+            
+        )
+        messages.success(request, "Leave Applied Succefully")
+        return HttpResponseRedirect('/staff/apply_leave/')
+        # except:
+        messages.success(request,"Error occurred")
+        return HttpResponseRedirect('/staff/apply_leave/')
+
+
+
+
 
 
     return render(request, 'view_schedule_staff.html', context=context )
@@ -67,7 +98,7 @@ def get_subject_staff(day, start_time):
     try:
         return ScheduleStudent.objects.get(day = day, start_time = start_time1, staff_id_id= staff_id).subject_id.name
     except:
-        return "Error"
+        return "Leisure"
 
 
 @register.filter
