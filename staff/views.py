@@ -91,14 +91,17 @@ def mark_attendance(request):
     now = datetime.now()
     date = now.strftime("%d-%m-%Y")
     today = datetime.today().weekday()
-    current_time = now.strftime("%H:%M:%S")
+    h,m= now.strftime("%H:%M:%S")[0:5].strip().split(':')
+    current_time = time(int(h),int(m)).strftime("%I:%M:%S")
+    # print(current_time, today)
     # print(current_time, today)
     schedules = ScheduleStudent.objects.filter(staff_id_id = staff_id, day=today, start_time__lte=current_time, end_time__gte=current_time).order_by('start_time')
-    try:
-        course = schedules[0].course_id # course object
-    except:
-        messages.success(request, "No Schedule Found")
-        return HttpResponseRedirect('/staff/schedule/')
+    # try:
+    # print(schedules)
+    course = schedules[0].course_id # course object
+    # except:
+    # messages.success(request, "No Schedule Found")
+    # return HttpResponseRedirect('/staff/schedule/')
     # print(course)
     # print(schedules)
 
@@ -135,16 +138,16 @@ def do_mark_attendance(request):
                 status1 = 1
             else:
                 status1 = 0
-            try:
-                attendance = Attendance.objects.update_or_create(
-                    student_id_id = student_id,
-                    status = status1,
-                )
-                attendance.attendance_schedule.add()
+            
+            attendance = Attendance.objects.update_or_create(
+                student_id_id = student_id,
+                status = status1,
+            )
+            attendance.attendance_schedule.add()
 
-            except:
-                messages.success(request, "Error Occurred")
-                return HttpResponseRedirect('/staff/mark_attendance/')
+            # except:
+            messages.success(request, "Error Occurred")
+            return HttpResponseRedirect('/staff/mark_attendance/')
         messages.success(request, "Attendance Marked Successfully")
         return HttpResponseRedirect('/staff/mark_attendance/')
 
